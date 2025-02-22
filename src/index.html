@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhisperWize</title>
+</head>
+<body>
+    <h1>Live Transcription</h1>
+    <p class="transcription-container"></p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', event =>{
+            webSocket = new WebSocket("ws://localhost:3000")
+            webSocket.onmessage = function (msg){
+                const data = JSON.parse(msg.data)
+                if(data.event === 'interim-transcription'){
+                    document.getElementById('transcription-container').innerHTML = data.text
+                }
+            }
+        })
+    </script>
+</body>
+</html>
